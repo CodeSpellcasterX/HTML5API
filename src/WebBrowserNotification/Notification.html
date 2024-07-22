@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Notification API</h1>
+
+    <script>
+        if(Notification.permission === "granted") {
+            console.log("Hi");
+            doNotify();
+        } else {
+            Notification.requestPermission().then(function(result) {
+                if( Notification.permission == 'granted'){ 
+                            doNotify();
+                }
+            }).catch((err) => {
+                console.log(err);
+            }) 
+        }
+
+        function doNotify(){
+            let title = "TIMES UP ⏱️";
+            let options = {
+                body: 'Please go back to your study',
+                data: {prop1:123, prop2:"Steve"},
+                icon: './pikachu-transparent-32576.png',
+            }
+            let n = new Notification(title, options);
+
+            n.addEventListener('show', function(ev){
+                console.log('SHOW', ev.currentTarget.data);
+            });
+            setTimeout( n.close.bind(n), 3000); //close notification after 3 seconds
+        }
+    </script>
+</body>
+</html>
